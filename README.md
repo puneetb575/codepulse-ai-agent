@@ -19,12 +19,12 @@ I built **CodePulse AI**, an autonomous repository-refactoring agent. Given acce
 ---
 
 ## 2. Wiring It Up: The Technical Architecture
-                   ┌──────────────────────────────┐
-                   │   TrueForge Agent Harness    │
-                   └──────────────┬───────────────┘
-                                  │
-        ┌─────────────────────────┼─────────────────────────┐
-        ▼                         ▼                         ▼
+                       ┌──────────────────────────────┐
+                       │   TrueForge Agent Harness    │
+                       └──────────────┬───────────────┘
+                                      │
+            ┌─────────────────────────┼─────────────────────────┐
+            ▼                         ▼                         ▼
 ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
 │  NVIDIA Nemotron     │  │  GitHub MCP Engine   │  │   Daytona Sandbox    │
 │  (LLM Execution)     │  │  (Repo & PR Context) │  │  (Isolated Testing)  │
