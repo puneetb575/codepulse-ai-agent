@@ -19,16 +19,13 @@ I built **CodePulse AI**, an autonomous repository-refactoring agent. Given acce
 ---
 
 ## 2. Wiring It Up: The Technical Architecture
-                       ┌──────────────────────────────┐
-                       │   TrueForge Agent Harness    │
-                       └──────────────┬───────────────┘
-                                      │
-            ┌─────────────────────────┼─────────────────────────┐
-            ▼                         ▼                         ▼
-┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
-│  NVIDIA Nemotron     │  │  GitHub MCP Engine   │  │   Daytona Sandbox    │
-│  (LLM Execution)     │  │  (Repo & PR Context) │  │  (Isolated Testing)  │
-└──────────────────────┘  └──────────────────────┘  └──────────────────────┘
+| Layer | Component | Description / Function |
+| :--- | :--- | :--- |
+| **Harness Core** | TrueForge Agent Harness | Main orchestration runtime & session manager |
+| **LLM Execution** | NVIDIA Nemotron | Primary language model for context & code fixes |
+| **Context & Git** | GitHub MCP Engine | Fetches repository tree, raw files, & opens PRs |
+| **Execution** | Daytona Sandbox | Isolated environment for executing tests safely |
+
 The underlying pipeline runs as follows:
 
 * **Runtime Layer:** TrueForge executed locally via Node.js (`npx @truefoundry/trueforge`) using SQLite for persistent sessions.
@@ -68,21 +65,27 @@ Building an autonomous agent rarely succeeds on the first attempt. Key challenge
 
 ## 5. Media & Demo
 
-> **[INSERT DEMO VIDEO LINK HERE]**  
-> *(Attach a 1-2 minute video clip showing your terminal/UI, the agent picking up an issue, executing tests inside Daytona, and opening a GitHub PR.)*
+https://github.com/user-attachments/assets/20b3b8b6-73bf-4240-aca5-e4b4e6d8bcac
+
+> Targeted Problem Solving: The workflow begins by picking up a specific, isolated issue (#184: Login form fails validation) rather than making sweeping, unverified changes.
+
+> Safety First via Sandboxing: By provisioning an isolated workspace in Daytona, the agent ensures that testing, dependency execution, and refactoring occur safely without exposing the main environment to instability.
+
+> Test-Driven Refactoring: The agent runs existing test suites to pinpoint exact failures (expects malformed email error message), inspects the code to locate missing validation logic, and applies a precise fix.
+
+> Automated Verification: Before pushing changes, the agent re-runs the entire test suite to ensure all 28 tests pass without regression.
+
+> Seamless Developer Integration: Rather than executing unmonitored deployments, the agent follows standard developer protocols—creating a dedicated git branch, committing changes, and submitting a structured GitHub Pull Request (PR #219) for human review.
 
 ### TrueForge Configuration Setup
-*(Click the image below to view the configuration details.)*
 
 [![Figure 1: TrueForge Harness Configuration. Shows NVIDIA Nemotron selected as the Model Provider, GitHub MCP active, and Daytona Sandbox enabled.](Figure_1_Harness_Config.png)](Figure_1_Harness_Config.png)
 
 ### Daytona Sandbox Execution Output
-*(Click the image below to view the full execution log.)*
 
 [![Figure 2: Execution Log. Shows the agent autonomously running 'npm test' inside the sandboxed Daytona container, interpreting a 'FAIL', and then retrying the test successfully.](Figure_2_Sandboxed_Output.png)](Figure_2_Sandboxed_Output.png)
 
 ### Autonomous Pull Request Created
-*(Click the image below to view the generated Pull Request.)*
 
 [![Figure 3: GitHub PR Interface. Displays the complete 'Autonomous PR' created by CodePulse AI, including the detailed summary of changes and showing that all CI checks passed.](Figure_3_GitHub_PR_Created.png)](Figure_3_GitHub_PR_Created.png)
 
